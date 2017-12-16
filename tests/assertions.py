@@ -19,6 +19,10 @@ def match_snapshot(self, snapshot, transformer=None):
         this = transformer(this)
         that = transformer(that)
 
+    # change string to lines so diffs look better
+    this = this.splitlines()
+    that = that.splitlines()
+
     # below code adapted from "equal()" matcher
     # see: https://github.com/gabrielfalcao/sure/blob/master/sure/__init__.py
     try:
