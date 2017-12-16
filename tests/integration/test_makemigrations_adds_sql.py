@@ -1,8 +1,8 @@
 import os
-import unittest
 
 from freezegun import freeze_time
 from django.core.management import call_command
+import django.test
 
 from tests.helpers import cleanup_migrations
 
@@ -13,7 +13,7 @@ def ignore_django_version_line(content):
     return "\n".join(lines)
 
 
-class TestMakemigrationsAddsSql(unittest.TestCase):
+class TestMakemigrationsAddsSql(django.test.TestCase):
     def tearDown(self):
         cleanup_migrations()
 
