@@ -4,32 +4,39 @@ from sure.core import DeepComparison, DeepExplanation, safe_repr
 
 
 @assertion
-def match_snapshot(self, snapshot):
+def match_snapshot(self, snapshot, transformer=None):
     full_path = "tests/snapshots/{}".format(snapshot)
     assert os.path.isfile(full_path), \
         "Couldn't find snapshot '{}'".format(snapshot)
 
     with open(full_path) as f:
-        what = f.read()
+        that = f.read()
+
+    # apply optional transformer
+    this = self.obj
+
+    if transformer:
+        this = transformer(this)
+        that = transformer(that)
 
     # below code adapted from "equal()" matcher
     # see: https://github.com/gabrielfalcao/sure/blob/master/sure/__init__.py
     try:
-        comparison = DeepComparison(self.obj, what).compare()
+        comparison = DeepComparison(this, that).compare()
         error = False
     except AssertionError as e:
         error = e
         comparison = None
 
     if isinstance(comparison, DeepExplanation):
-        error = comparison.get_assertion(self.obj, what)
+        error = comparison.get_assertion(this, that)
 
     if self.negative:
         if error:
             return True
 
         msg = '%s should differ from %s, but is the same thing'
-        raise AssertionError(msg % (safe_repr(self.obj), safe_repr(what)))
+        raise AssertionError(msg % (safe_repr(this), safe_repr(that)))
 
     else:
         if not error:
