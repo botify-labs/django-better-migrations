@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = __import__("django-better-migrations").__version__
+version = __import__("django_better_migrations").__version__
 
 
 def read(path):
