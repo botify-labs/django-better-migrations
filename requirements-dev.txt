@@ -1,4 +1,6 @@
+freezegun
 pytest
 pytest-django
 pytest-pythonpath
+sure
 tox
