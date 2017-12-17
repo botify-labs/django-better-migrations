@@ -13,9 +13,9 @@ Documentation index
 - [Installation](./installation.md)
 - [Configuration](./configuration.md)
 - Features
-  - display generated SQL
-  - display line counts on affected tables
-  - implement rules to protect against dangerous actions
-  - team-friendly migrations
+  - [display generated SQL](./features/display_generated_sql.md)
+  - (TODO) display line counts on affected tables
+  - (TODO) implement rules to protect against dangerous actions
+  - (TODO) team-friendly migrations
 - [Contributing](./contributing.md)
 - [FAQ](./faq.md)
