@@ -1,5 +1,4 @@
 import os
-import sys
 import re
 
 from freezegun import freeze_time
@@ -45,5 +44,4 @@ class TestMakemigrationsAddsSql(django.test.TestCase):
         assert os.path.isfile("tests/example_app/migrations/0001_initial.py")
 
         content = open("tests/example_app/migrations/0001_initial.py").read()
-        sys.stderr.write("MIGRATION CONTENT:\n\n{}".format(content))
         content.should.match_snapshot("migrations__0001_initial.py", snapshot_transformer)

@@ -1,6 +1,19 @@
 import os
+import subprocess
 from sure import assertion
-from sure.core import DeepComparison, DeepExplanation, safe_repr
+import sys
+from tempfile import NamedTemporaryFile
+
+
+def _diff(this, that):
+    this_f = NamedTemporaryFile()
+    this_f.write(this)
+    this_f.flush()
+    that_f = NamedTemporaryFile()
+    that_f.write(that)
+    that_f.flush()
+    cmd = "diff -u {} {} || true".format(this_f.name, that_f.name)
+    return subprocess.check_output(cmd, shell=True)
 
 
 @assertion
@@ -19,30 +32,16 @@ def match_snapshot(self, snapshot, transformer=None):
         this = transformer(this)
         that = transformer(that)
 
-    # change string to lines so diffs look better
-    this = this.splitlines()
-    that = that.splitlines()
-
-    # below code adapted from "equal()" matcher
-    # see: https://github.com/gabrielfalcao/sure/blob/master/sure/__init__.py
-    try:
-        comparison = DeepComparison(this, that).compare()
-        error = False
-    except AssertionError as e:
-        error = e
-        comparison = None
-
-    if isinstance(comparison, DeepExplanation):
-        error = comparison.get_assertion(this, that)
-
     if self.negative:
-        if error:
-            return True
-
-        msg = '%s should differ from %s, but is the same thing'
-        raise AssertionError(msg % (safe_repr(this), safe_repr(that)))
+        if this == that:
+            sys.stderr.write("Content:\n{}\n".format(this))
+            raise AssertionError(
+                "Content should differ from {}, but is the same thing".format(snapshot))
 
     else:
-        if not error:
-            return True
-        raise error
+        if this != that:
+            sys.stderr.write("Diff:\n{}\n".format(_diff(this, that)))
+            raise AssertionError(
+                "Content differ from {}, see stderr output for a diff.".format(snapshot))
+
+    return True
