@@ -1,5 +1,5 @@
-import sure
-import tests.assertions
+import sure  # noqa
+import tests.assertions  # noqa
 
 # Disable sure's patched "dir" builtin, since it breaks on OSX
 # with an error similar to: https://github.com/benjaminp/six/issues/54
