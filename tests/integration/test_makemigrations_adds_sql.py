@@ -28,6 +28,11 @@ def snapshot_transformer(content):
         return line
     lines = map(_reorder_kwargs, lines)
 
+    # remove some SQL comments for django < 1.9
+    # django 1.8- didn't have comments on SQL instructions
+    if django.VERSION < (1, 9):
+        lines = [l for l in lines if not l.startswith("# --")]
+
     # remove blank lines
     lines = [l for l in lines if l]
 
