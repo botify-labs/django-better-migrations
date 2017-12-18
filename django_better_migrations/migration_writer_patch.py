@@ -34,7 +34,7 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
 
     content = content.replace(
         "\nclass Migration",
-        "%s\n\nclass Migration" % comment,
+        "\n%sclass Migration" % comment,
     )
 
     return content
