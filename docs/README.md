@@ -14,8 +14,8 @@ Documentation index
 - [Configuration](./configuration.md)
 - Features
   - [display generated SQL](./features/display_generated_sql.md)
+  - [check rules to protect against dangerous actions](./features/check_rules_to_protect_against_dangerous_actions.md)
   - (TODO) display line counts on affected tables
-  - (TODO) implement rules to protect against dangerous actions
   - (TODO) team-friendly migrations
 - [Contributing](./contributing.md)
 - [FAQ](./faq.md)

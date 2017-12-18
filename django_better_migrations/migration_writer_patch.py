@@ -2,6 +2,8 @@ from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.writer import MigrationWriter
 
+from .config import get_setting
+
 
 # Safety check to ensure we actually can patch MigrationWriter correctly
 if "as_string" not in dir(MigrationWriter):
@@ -31,6 +33,19 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
     # amend content that will be written to disk
     comment = "\n".join("# %s" % stmt for stmt in sql_statements)
     comment = "# Generated SQL code (%s):\n#\n%s\n#\n" % (connection.vendor, comment)
+
+    # check rules
+    rules = get_setting("RULES")
+    check_results = []
+    for rule in rules:
+        status = rule().process(self.migration, sql_statements)
+        out = (status, rule.title)
+        check_results.append(out)
+
+    if check_results:
+        comment += "\n# Check results:\n"
+    for res in check_results:
+        comment += "# CHECK %s: %s\n" % (res[0], res[1])
 
     content = content.replace(
         "\nclass Migration",

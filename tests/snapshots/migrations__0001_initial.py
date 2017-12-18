@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
+
 # Generated SQL code (sqlite):
 #
 # --
@@ -12,7 +13,8 @@ from django.db import migrations, models
 # CREATE TABLE "example_app_person" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL);
 #
 
-
+# Check results:
+# CHECK OK: No ALTER TABLE ADD COLUMN with non-NULL constraint
 class Migration(migrations.Migration):
 
     initial = True
