@@ -1,5 +1,6 @@
 import os
 import re
+import pytest
 
 from freezegun import freeze_time
 from django.core.management import call_command
@@ -50,3 +51,14 @@ class TestMakemigrationsAddsSql(django.test.TestCase):
 
         content = open("tests/example_app/migrations/0001_initial.py").read()
         content.should.match_snapshot("migrations__0001_initial.py", snapshot_transformer)
+
+    @django.test.override_settings(BETTER_MIGRATIONS={
+        'ALLOW_ENGINES': ['postgresql']
+    })
+    def test_allow_engines(self):
+        with pytest.raises(
+            Exception,
+            match="You are not allowed to generate migrations files with the DB engine 'sqlite'. "
+                  "Please use an engine among the following list: postgresql"
+        ):
+            call_command("makemigrations", "example_app")
