@@ -15,6 +15,20 @@ if "as_string" not in dir(MigrationWriter):
 
 # Patch writer's as_string() method to add comments in the resulting file
 def as_string_with_sql_annotations(self, *args, **kwargs):
+    connection = connections[DEFAULT_DB_ALIAS]
+
+    # check allowed engines in settings
+    allowed_engines = get_setting("ALLOW_ENGINES")
+    if allowed_engines and connection.vendor not in allowed_engines:
+        raise Exception(
+            "You are not allowed to generate migrations files "
+            "with the DB engine '%s'. Please use an engine among "
+            "the following list: %s" % (
+                connection.vendor,
+                ", ".join(allowed_engines),
+            )
+        )
+
     content = self._original_as_string(*args, **kwargs)
     assert "\nclass Migration" in content, "couldn't find 'class Migration' in migration content"
 
@@ -23,7 +37,6 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
         f.write(content)
 
     # get SQL code
-    connection = connections[DEFAULT_DB_ALIAS]
     executor = MigrationExecutor(connection)
     app_label = self.migration.app_label
     mirgation_name = self.migration.name
