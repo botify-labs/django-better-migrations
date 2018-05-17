@@ -19,6 +19,7 @@ DEFAULT_CONFIGURATION = {
     "RULES": [
         rules.NoAddColumnNonNull,
     ],
+    "ALLOW_ENGINES": [],
 }
 
 
