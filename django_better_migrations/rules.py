@@ -11,4 +11,7 @@ class NoAddColumnNonNull(BaseRule):
         return "OK"
 
     def _incorrect(self, stmt):
-        return stmt.startswith("ALTER TABLE") and "NOT NULL" in stmt
+        return (
+            stmt.startswith("ALTER TABLE") and
+            "NOT NULL" in stmt and
+            "DROP NOT NULL" not in stmt)
