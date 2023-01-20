@@ -4,16 +4,70 @@ on:
   pull_request:
   push:
     branches:
-      - 'master'
-      
+      - 'main'
+
+concurrency:
+  group: ${{ github.event_name }}-${{ github.ref }}
+
 jobs:
   build:
-    name: "empty"
+
+    strategy:
+      matrix:
+        include:
+
+          - name: Python 3.7 / Django 2.2
+            python_version: "3.7"
+            django_version: "2.2.*"
+
+          - name: Python 3.8 / Django 3.0
+            python_version: "3.8"
+            django_version: "3.0.*"
+
+          - name: Python 3.9 / Django 3.1
+            python_version: "3.9"
+            django_version: "3.1.*"
+
+          - name: Python 3.10 / Django 3.2
+            python_version: "3.10"
+            django_version: "3.2.*"
+
+          - name: Python 3.10 / Django 4.0
+            python_version: "3.10"
+            django_version: "4.0.*"
+
+          - name: Python 3.11 / Django 4.1
+            python_version: "3.11"
+            django_version: "4.1.*"
+
+    name: "py${{ matrix.python_version }}"
     runs-on: ubuntu-latest
 
     steps:
-      - name: Yay
-        run: "true"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "${{ matrix.python_version }}"
+          cache: "poetry"
+
+      - name: Configure Poetry to use Python ${{ matrix.python_version }}
+        run: poetry env use "${{ matrix.python_version }}"
+
+      - name: Install deps
+        run: poetry install
+
+      - name: Install deps
+        run: poetry run pip install django==${{ matrix.django_version }}
+
+      - name: Run tests
+        run: poetry run pytest
+
 
   report-status:
     name: success
