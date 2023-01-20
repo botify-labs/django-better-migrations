@@ -1,4 +1,7 @@
+#!/usr/bin/env python
+
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,7 +19,7 @@ INSTALLED_APPS = [
     "tests.example_app",
 ]
 
-ROOT_URLCONF = "tests.urls"
+ROOT_URLCONF = "tests.settings"
 
 TEMPLATES = [
     {
@@ -31,3 +34,11 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+urlpatterns = []
+
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
+    from django.core.management import execute_from_command_line
+
+    execute_from_command_line(sys.argv)
