@@ -1,3 +1,4 @@
+import django
 from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.writer import MigrationWriter
@@ -41,9 +42,15 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
     # get SQL code
     executor = MigrationExecutor(connection)
     app_label = self.migration.app_label
-    mirgation_name = self.migration.name
-    plan = [(executor.loader.graph.nodes[(app_label, mirgation_name)], False)]
-    sql_statements = executor.collect_sql(plan)
+    migration_name = self.migration.name
+    plan = [(executor.loader.graph.nodes[(app_label, migration_name)], False)]
+
+    if django.VERSION < (3, 1):
+        collector = executor
+    else:
+        collector = executor.loader
+
+    sql_statements = collector.collect_sql(plan)
 
     # amend content that will be written to disk
     comment = "\n".join("# %s" % stmt for stmt in sql_statements)
