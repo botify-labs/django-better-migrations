@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "django-better-migrations"
+version = "0.0.0"
+description = "Adds SQL Output and a Rules system to Django Migrations"
+authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>, Joachim Jablon <joachim@botify.com>, Stephane Chi <stephane@botify.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "django_better_migrations"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+freezegun = "^1.2.2"
+pytest = "^7.2.1"
+pytest-django = "^4.5.2"
+sure = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
