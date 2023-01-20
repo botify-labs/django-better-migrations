@@ -27,6 +27,6 @@ build-backend = "poetry_dynamic_versioning.backend"
 [tool.black]
 force-exclude = '''
 (
-  tests/snapshots/migrations__0001_initial.py.*
+  tests/snapshots/.*
 )
 '''

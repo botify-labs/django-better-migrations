@@ -1,6 +1,7 @@
 import os
 import re
 
+import django
 import django.test
 import pytest
 from django.core.management import call_command
@@ -26,9 +27,11 @@ def snapshot_transformer(content):
     # reorder "AutoField()" keyword arguments
     def _reorder_kwargs(line):
         if "AutoField(" in line:
-            kwargs = re.search(r"AutoField\(([^\)]+)\)", line).groups(0)[0]
-            sorted_kwargs = ", ".join(sorted(kwargs.split(", ")))
-            line = line.replace(kwargs, sorted_kwargs)
+            matches = re.search(r"AutoField\(([^\)]+)\)", line)
+            if matches:
+                kwargs = matches.groups(0)[0]
+                sorted_kwargs = ", ".join(sorted(kwargs.split(", ")))
+                line = line.replace(kwargs, sorted_kwargs)
 
         return line
 
@@ -51,9 +54,13 @@ class TestMakemigrationsAddsSql(django.test.TransactionTestCase):
         assert os.path.isfile("tests/example_app/migrations/0001_initial.py")
 
         content = open("tests/example_app/migrations/0001_initial.py").read()
-        content.should.match_snapshot(
-            "migrations__0001_initial.py", snapshot_transformer
-        )
+
+        if django.VERSION >= (4, 1):
+            test_file = "migrations__0001_django_gte_41.py"
+        else:
+            test_file = "migrations__0001_django_lte_40.py"
+
+        content.should.match_snapshot(test_file, snapshot_transformer)
 
     @django.test.override_settings(BETTER_MIGRATIONS={"ALLOW_ENGINES": ["postgresql"]})
     def test_allow_engines(self):
