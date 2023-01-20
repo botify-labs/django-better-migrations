@@ -23,7 +23,7 @@ Why monkey-patching, it's bad!
 TODO
 
 
-Why not contribute this upsteam?
---------------------------------
+Why not contribute this upstream?
+---------------------------------
 
 TODO
