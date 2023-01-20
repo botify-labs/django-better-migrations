@@ -1,20 +1,16 @@
+import difflib
 import os
-import subprocess
 import sys
-from tempfile import NamedTemporaryFile
 
 from sure import assertion
 
 
-def _diff(this, that):
-    this_f = NamedTemporaryFile()
-    this_f.write(this)
-    this_f.flush()
-    that_f = NamedTemporaryFile()
-    that_f.write(that)
-    that_f.flush()
-    cmd = f"diff -u {this_f.name} {that_f.name} || true"
-    return subprocess.check_output(cmd, shell=True)
+def _diff(this: str, that: str):
+    return "".join(
+        difflib.unified_diff(
+            this.splitlines(keepends=True), that.splitlines(keepends=True)
+        )
+    )
 
 
 @assertion

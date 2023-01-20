@@ -3,4 +3,8 @@
 # (having sure AND six AND tox trying to monkey-patch things might be too much)
 from sure import builtins, old_dir
 
+from . import assertions
+
 builtins.dir = old_dir
+
+__all__ = ["assertions"]
