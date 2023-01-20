@@ -6,6 +6,18 @@ authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>, Joachim Jablon <
 license = "MIT"
 readme = "README.md"
 packages = [{include = "django_better_migrations"}]
+repository = "http://github.com/botify-labs/django-better-migrations"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Topic :: Database",
+  "Framework :: Django",
+  "Framework :: Django :: 2.2",
+  "Framework :: Django :: 3.0",
+  "Framework :: Django :: 3.1",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
