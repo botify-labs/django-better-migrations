@@ -1,11 +1,11 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 version = __import__("django_better_migrations").__version__
 
 
 def read(path):
     """Return the content of a file."""
-    with open(path, "r") as f:
+    with open(path) as f:
         return f.read()
 
 

@@ -1,4 +1,4 @@
-class BaseRule(object):
+class BaseRule:
     pass
 
 
@@ -12,6 +12,7 @@ class NoAddColumnNonNull(BaseRule):
 
     def _incorrect(self, stmt):
         return (
-            stmt.startswith("ALTER TABLE") and
-            "NOT NULL" in stmt and
-            "DROP NOT NULL" not in stmt)
+            stmt.startswith("ALTER TABLE")
+            and "NOT NULL" in stmt
+            and "DROP NOT NULL" not in stmt
+        )
