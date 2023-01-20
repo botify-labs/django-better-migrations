@@ -3,7 +3,7 @@ from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.writer import MigrationWriter
 
-from .config import get_setting
+from .apps import get_setting
 
 # Safety check to ensure we actually can patch MigrationWriter correctly
 if "as_string" not in dir(MigrationWriter):
