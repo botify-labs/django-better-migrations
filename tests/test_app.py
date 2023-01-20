@@ -35,6 +35,8 @@ DATABASES = {
     }
 }
 
+USE_TZ = False
+
 urlpatterns = []
 
 if __name__ == "__main__":
