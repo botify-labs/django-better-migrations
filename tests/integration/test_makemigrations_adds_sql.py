@@ -41,7 +41,7 @@ def snapshot_transformer(content):
     return "\n".join(lines)
 
 
-class TestMakemigrationsAddsSql(django.test.TestCase):
+class TestMakemigrationsAddsSql(django.test.TransactionTestCase):
     def tearDown(self):
         cleanup_migrations()
 
