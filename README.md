@@ -7,8 +7,6 @@ Django Better Migrations
 [![MIT License](https://img.shields.io/github/license/botify-labs/django-better-migrations?logo=open-source-initiative&logoColor=white)](https://github.com/botify-labs/django-better-migrations/blob/main/LICENSE)
 
 This project aims at providing improvements to Django's default migration system.
-The default migration system is over-engineered, sometimes dangerous, and not
-team work friendly.
 
 
 More informations in the documentation, see "docs/" folder.
