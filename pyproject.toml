@@ -25,12 +25,12 @@ django = "*"
 
 
 [tool.poetry.group.dev.dependencies]
-freezegun = "^1.2.2"
-pytest = "^7.2.1"
-pytest-django = "^4.5.2"
-sure = "^2.0.0"
-black = "^22.12.0"
-isort = "^5.11.4"
+freezegun = "*"
+pytest = "*"
+pytest-django = "*"
+sure = "*"
+black = "*"
+isort = "*"
 
 [build-system]
 requires = ["poetry-core", "poetry-dynamic-versioning"]
