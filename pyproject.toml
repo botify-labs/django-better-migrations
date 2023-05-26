@@ -2,7 +2,7 @@
 name = "django-better-migrations"
 version = "0.0.0"
 description = "Adds SQL Output and a Rules system to Django Migrations"
-authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>, Joachim Jablon <joachim@botify.com>, Stephane Chi <stephane@botify.com>"]
+authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>", "Joachim Jablon <joachim@botify.com>", "Stephane Chi <stephane@botify.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "django_better_migrations"}]
