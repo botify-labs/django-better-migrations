@@ -45,7 +45,7 @@ BETTER_MIGRATIONS = {
 Note that this setting already includes a few rules implemented by the project,
 so you may want to modify it instead:
 ```python
-from django_better_migrations.config import DEFAULT_CONFIGURATION
+from django_better_migrations import DEFAULT_CONFIGURATION
 from my_migration_rules import ACustomerRule
 
 

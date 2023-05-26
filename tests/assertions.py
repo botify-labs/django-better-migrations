@@ -1,26 +1,22 @@
+import difflib
 import os
-import subprocess
-from sure import assertion
 import sys
-from tempfile import NamedTemporaryFile
+
+from sure import assertion
 
 
-def _diff(this, that):
-    this_f = NamedTemporaryFile()
-    this_f.write(this)
-    this_f.flush()
-    that_f = NamedTemporaryFile()
-    that_f.write(that)
-    that_f.flush()
-    cmd = "diff -u {} {} || true".format(this_f.name, that_f.name)
-    return subprocess.check_output(cmd, shell=True)
+def _diff(this: str, that: str):
+    return "".join(
+        difflib.unified_diff(
+            this.splitlines(keepends=True), that.splitlines(keepends=True)
+        )
+    )
 
 
 @assertion
 def match_snapshot(self, snapshot, transformer=None):
-    full_path = "tests/snapshots/{}".format(snapshot)
-    assert os.path.isfile(full_path), \
-        "Couldn't find snapshot '{}'".format(snapshot)
+    full_path = f"tests/snapshots/{snapshot}"
+    assert os.path.isfile(full_path), f"Couldn't find snapshot '{snapshot}'"
 
     with open(full_path) as f:
         that = f.read()
@@ -34,14 +30,16 @@ def match_snapshot(self, snapshot, transformer=None):
 
     if self.negative:
         if this == that:
-            sys.stderr.write("Content:\n{}\n".format(this))
+            sys.stderr.write(f"Content:\n{this}\n")
             raise AssertionError(
-                "Content should differ from {}, but is the same thing".format(snapshot))
+                f"Content should differ from {snapshot}, but is the same thing"
+            )
 
     else:
         if this != that:
-            sys.stderr.write("Diff:\n{}\n".format(_diff(this, that)))
+            sys.stderr.write(f"Diff:\n{_diff(this, that)}\n")
             raise AssertionError(
-                "Content differ from {}, see stderr output for a diff.".format(snapshot))
+                f"Content differ from {snapshot}, see stderr output for a diff."
+            )
 
     return True

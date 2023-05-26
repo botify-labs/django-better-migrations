@@ -1,9 +1,9 @@
+import django
 from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.writer import MigrationWriter
 
-from .config import get_setting
-
+from .apps import get_setting
 
 # Safety check to ensure we actually can patch MigrationWriter correctly
 if "as_string" not in dir(MigrationWriter):
@@ -23,14 +23,17 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
         raise Exception(
             "You are not allowed to generate migrations files "
             "with the DB engine '%s'. Please use an engine among "
-            "the following list: %s" % (
+            "the following list: %s"
+            % (
                 connection.vendor,
                 ", ".join(allowed_engines),
             )
         )
 
     content = self._original_as_string(*args, **kwargs)
-    assert "\nclass Migration" in content, "couldn't find 'class Migration' in migration content"
+    assert (
+        "\nclass Migration" in content
+    ), "couldn't find 'class Migration' in migration content"
 
     # write migration un-processed so the executor can find/read it
     with open(self.path, "w") as f:
@@ -39,13 +42,21 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
     # get SQL code
     executor = MigrationExecutor(connection)
     app_label = self.migration.app_label
-    mirgation_name = self.migration.name
-    plan = [(executor.loader.graph.nodes[(app_label, mirgation_name)], False)]
-    sql_statements = executor.collect_sql(plan)
+    migration_name = self.migration.name
+    plan = [(executor.loader.graph.nodes[(app_label, migration_name)], False)]
+
+    if django.VERSION < (3, 1):
+        collector = executor
+    else:
+        collector = executor.loader
+
+    sql_statements = collector.collect_sql(plan)
 
     # amend content that will be written to disk
     comment = "\n".join("# %s" % stmt for stmt in sql_statements)
-    comment = "# Generated SQL code (%s):\n#\n%s\n#\n" % (connection.vendor, comment)
+    comment = "# Generated SQL code ({}):\n#\n{}\n#\n".format(
+        connection.vendor, comment
+    )
 
     # check rules
     rules = get_setting("RULES")
@@ -58,7 +69,7 @@ def as_string_with_sql_annotations(self, *args, **kwargs):
     if check_results:
         comment += "\n# Check results:\n"
     for res in check_results:
-        comment += "# CHECK %s: %s\n" % (res[0], res[1])
+        comment += f"# CHECK {res[0]}: {res[1]}\n"
 
     content = content.replace(
         "\nclass Migration",
