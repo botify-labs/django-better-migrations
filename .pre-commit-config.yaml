@@ -10,13 +10,13 @@ repos:
   - id: check-added-large-files
 
 - repo: https://github.com/psf/black
-  rev: "22.12.0"
+  rev: "23.3.0"
   hooks:
   - id: black
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/PyCQA/isort
-  rev: "5.11.1"
+  rev: "5.12.0"
   hooks:
   - id: isort
     exclude: "tests/snapshots/"
@@ -28,20 +28,20 @@ repos:
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/asottile/pyupgrade
-  rev: "v3.3.1"
+  rev: "v3.4.0"
   hooks:
   - id: pyupgrade
     args: [ --py37-plus ]
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: "1.12.0"
+  rev: "1.13.0"
   hooks:
   - id: django-upgrade
     args: [--target-version, "2.2"]
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/floatingpurr/sync_with_poetry
-  rev: 0.4.0
+  rev: 1.0.0
   hooks:
   - id: sync_with_poetry

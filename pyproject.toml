@@ -2,7 +2,7 @@
 name = "django-better-migrations"
 version = "0.0.0"
 description = "Adds SQL Output and a Rules system to Django Migrations"
-authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>, Joachim Jablon <joachim@botify.com>, Stephane Chi <stephane@botify.com>"]
+authors = ["Jean-Baptiste Barth <jeanbaptiste.barth@gmail.com>", "Joachim Jablon <joachim@botify.com>", "Stephane Chi <stephane.chi@botify.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "django_better_migrations"}]
@@ -25,12 +25,12 @@ django = "*"
 
 
 [tool.poetry.group.dev.dependencies]
-freezegun = "^1.2.2"
-pytest = "^7.2.1"
-pytest-django = "^4.5.2"
-sure = "^2.0.0"
-black = "^22.12.0"
-isort = "^5.11.4"
+freezegun = "*"
+pytest = "*"
+pytest-django = "*"
+sure = "*"
+black = "*"
+isort = "*"
 
 [build-system]
 requires = ["poetry-core", "poetry-dynamic-versioning"]
