@@ -38,6 +38,7 @@ build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry-dynamic-versioning]
 enable = true
+pattern = "default-unprefixed"
 
 [tool.black]
 force-exclude = '''
