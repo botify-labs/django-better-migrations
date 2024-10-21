@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v5.0.0
   hooks:
   - id: trailing-whitespace
   - id: end-of-file-fixer
@@ -10,38 +10,38 @@ repos:
   - id: check-added-large-files
 
 - repo: https://github.com/psf/black
-  rev: "23.3.0"
+  rev: "24.10.0"
   hooks:
   - id: black
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/PyCQA/isort
-  rev: "5.12.0"
+  rev: "5.13.2"
   hooks:
   - id: isort
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/PyCQA/flake8
-  rev: "6.0.0"
+  rev: "7.1.1"
   hooks:
   - id: flake8
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/asottile/pyupgrade
-  rev: "v3.4.0"
+  rev: "v3.18.0"
   hooks:
   - id: pyupgrade
     args: [ --py37-plus ]
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: "1.13.0"
+  rev: "1.22.1"
   hooks:
   - id: django-upgrade
     args: [--target-version, "2.2"]
     exclude: "tests/snapshots/"
 
 - repo: https://github.com/floatingpurr/sync_with_poetry
-  rev: 1.0.0
+  rev: 1.2.0
   hooks:
   - id: sync_with_poetry
